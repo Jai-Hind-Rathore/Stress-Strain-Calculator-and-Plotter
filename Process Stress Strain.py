@@ -111,7 +111,7 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
     
     Load = [abs(i*10000/(Htr)) for i in df['Dev1/ai0'].to_list()]
 
-    Disp = [abs(i*10) for i in df['V [mm]'].to_list()]
+    Disp = [abs(i) for i in df['V [mm]'].to_list()]
 
     Engstress = [i/(csc*th) for i in Load]
 
@@ -187,9 +187,37 @@ for i in range(r2score.count(1.0)):
     percents.pop(popitem)
 percent=percents[r2score.index(max(r2score))]
 
+r2score=[]
+percents = []
 
     
-splitdata = data[:int(len(data)*(percent))]
+for i in range(int(percent*1000)):
+    percenti=(i)/1000
+
+    try:
+        splitdata = data[int(len(data)*percenti):int(len(data)*percent)]
+        strainnew,stressnew,popt=curvefitlinear(splitdata)
+        s1split =[]
+        for i in splitdata:
+            s1split.append(i[1])
+        r2 = r2_score(s1split, stressnew)
+
+        #print("Elastic Fit Score: ", r2," at percent ",percent*100)
+        r2score.append(r2)
+        percents.append(percenti)
+    except:
+        print('Pushing forward')
+
+
+
+for i in range(r2score.count(1.0)):
+    popitem=r2score.index(max(r2score))
+    r2score.pop(popitem)
+    percents.pop(popitem)
+percenti=percents[r2score.index(max(r2score))]
+
+    
+splitdata = data[int(len(data)*(percenti)):int(len(data)*(percent))]
 strainnew,stressnew,popt=curvefitlinear(splitdata)
 s1split =[]
 for i in splitdata:
@@ -200,7 +228,7 @@ modulus=popt[0]
 
 print('Modulus',modulus)
 
-print("Elastic Fit Score: ", r2," at percent ",percent*100)
+print("Elastic Fit Score: ", r2," from percent ",percenti*100," to ", percent*100)
 
 
 
