@@ -340,7 +340,7 @@ if flag == 'y' or flag == 'Y':
     samplelist = ['' for i in range(len(df['Eng Strain']))]
     samplelist[0]=yieldpoint[1]
     samplelist[1]=r21
-    df['2% Offset Yield Strength (MPa)']= samplelist
+    df['0.2% Offset Yield Strength (MPa)']= samplelist
     samplelist[0]=yieldpoint[0]
     samplelist[1]=r21
     df['Strain @ yield']=samplelist
