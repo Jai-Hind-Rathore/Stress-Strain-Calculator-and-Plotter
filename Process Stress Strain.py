@@ -71,14 +71,6 @@ def Modulus(strain,stress):
 
 filename = str(input("Enter the file name: "))
 
-#filename = 'Al5086_Tensile_Specimen_3_R0'
-
-#filename = 'AL_5086_Shear_Specimen_5_R0 Stripped'
-
-#filename = 'AL_5086_Plane_Strain_Tension_Specimen_1_R0'
-
-#filename = 'Al5086_Tensile_Specimen_3_R0 Stripped'
-
 
 df = pd.read_csv(filename+'.csv', na_values=[''],skiprows=1)
 
@@ -140,12 +132,19 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
         })
 
     df = pd.concat([df,df2],axis=1)
+    samplelist = ['' for i in range(len(df['Eng Strain']))]
+    samplelist[0]=csc*th
+    df['Cross Section Area (mm^2)']=samplelist
 
-    
+
 
 print(df)     
     
-    
+flag=input("Write csv to save data so far? (in case analysis fails) (y,n)")
+
+if flag == 'y' or flag == 'Y':
+    df.to_csv(filename+' Complete Dataset.csv')
+    print('CSV File created')
 
 e1 = df['Eng Strain'].to_list()
 s1 = df['Eng Stress(MPa)'].to_list()
@@ -231,9 +230,8 @@ print('Modulus',modulus)
 print("Elastic Fit Score: ", r2," from percent ",percenti*100," to ", percent*100)
 
 
-
 #Plastic region
-splitdata=data[int(len(data)*percent):int(len(data)*0.3)]
+splitdata=data[int(len(data)*percent):int(len(data)*(1-percent)*0.3)]
 
 s1split =[]
 for i in splitdata:
@@ -353,7 +351,7 @@ if flag == 'y' or flag == 'Y':
     samplelist[1]=r22
     df['Ultimate Strength (MPa)']=samplelist
 
-    df.to_csv(filename+' Analysis.csv')
+    df.to_csv(filename+' Complete Dataset with Analysis.csv')
     print('CSV File created')
 
 flagplot=input("Save the html of plots: (y,n)")
