@@ -1,3 +1,11 @@
+# Stress Strain Calculator and Plotter
+# Ideated and produced by Jai Hind Rathore
+# Computes Modulus, yield point and UTS from a given stress strain curve
+# Can identify Elastic only behavior (Brittle Materials)
+# Can identify bilinear materials or uneven begining of the stress strain curve
+# Does not work on denoised data. \
+#See examples: https://github.com/Jai-Hind-Rathore/Stress-Strain-Calculator-and-Plotter
+
 import csv
 import numpy as np
 import plotly.graph_objects as go
