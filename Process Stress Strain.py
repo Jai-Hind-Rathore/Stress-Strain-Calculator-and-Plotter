@@ -233,7 +233,7 @@ try:
 
     
     #Plastic region
-    splitdata=data[int(len(data)*percent):int(len(data)*(1-percent)*0.5)+int(len(data)*percent)]
+    splitdata=data[int(len(data)*percent):int(len(data)*(1-percent)*0.3)+int(len(data)*percent)]
 
     s1split =[]
     for i in splitdata:
