@@ -72,7 +72,7 @@ def Modulus(strain,stress):
 filename = str(input("Enter the file name: "))
 
 
-df = pd.read_csv(filename+'.csv', na_values=[''],skiprows=0)
+df = pd.read_csv(filename+'.csv', na_values=[''],skiprows=1)
 
 print(df)  
 
