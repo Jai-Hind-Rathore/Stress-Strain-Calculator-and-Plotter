@@ -72,7 +72,7 @@ def Modulus(strain,stress):
 filename = str(input("Enter the file name: "))
 
 
-df = pd.read_csv(filename+'.csv', na_values=[''],skiprows=1)
+df = pd.read_csv(filename+'.csv', na_values=[''],skiprows=0)
 
 print(df)  
 
@@ -229,50 +229,67 @@ print('Modulus',modulus)
 
 print("Elastic Fit Score: ", r2," from percent ",percenti*100," to ", percent*100)
 
+try:
 
-#Plastic region
-splitdata=data[int(len(data)*percent):int(len(data)*(1-percent)*0.3)]
+    
+    #Plastic region
+    splitdata=data[int(len(data)*percent):int(len(data)*(1-percent)*0.5)+int(len(data)*percent)]
 
-s1split =[]
-for i in splitdata:
-    s1split.append(i[1])
+    s1split =[]
+    for i in splitdata:
+        s1split.append(i[1])
 
-strainfit,stressfit=curvefitpoly(splitdata)
-r21 = r2_score(s1split, stressfit)
+    strainfit,stressfit=curvefitpoly(splitdata)
+    r21 = r2_score(s1split, stressfit)
 
-offset = [popt[0]*(i-0.002)+popt[1] for i in strainfit]
+    offset = [popt[0]*(i-0.002)+popt[1] for i in strainfit]
 
-r = []
-for i in range(len(strainfit)):
-    r.append((offset[i]-stressfit[i])**2)
-
-
-yieldpoint=[(strainfit[r.index(min(r))]+strainfit[r.index(min(r))+1])/2,(stressfit[r.index(min(r))]+stressfit[r.index(min(r))+1])/2]
-print('Yield point',float(yieldpoint[0]),float(yieldpoint[1]))
-
-print("Polynomial Fit Score: ", r21)
+    r = []
+    for i in range(len(strainfit)):
+        r.append((offset[i]-stressfit[i])**2)
 
 
-#UTS
+    yieldpoint=[(strainfit[r.index(min(r))]+strainfit[r.index(min(r))+1])/2,(stressfit[r.index(min(r))]+stressfit[r.index(min(r))+1])/2]
+    print('Yield point',float(yieldpoint[0]),float(yieldpoint[1]))
 
-splitdata=data[int(len(data)*percent):]
-
-s1split =[]
-for i in splitdata:
-    s1split.append(i[1])
-
-strainult,stressult=curvefitpoly(splitdata)
-r22 = r2_score(s1split, stressult)
+    print("Polynomial Fit Score: ", r21)
 
 
+    #UTS
+
+    splitdata=data[int(len(data)*percent):]
+
+    s1split =[]
+    for i in splitdata:
+        s1split.append(i[1])
+
+    strainult,stressult=curvefitpoly(splitdata)
+    r22 = r2_score(s1split, stressult)
 
 
 
-UTS=[strainult[stressult.index(max(stressult))],max(stressult)]
-print('UTS',float(UTS[0]),float(UTS[1]))
 
-print("Polynomial Fit Score: ", r22)
 
+    UTS=[strainult[stressult.index(max(stressult))],max(stressult)]
+    print('UTS',float(UTS[0]),float(UTS[1]))
+
+    print("Polynomial Fit Score: ", r22)
+
+except:
+
+    strainfit=[0]
+    stressfit=[0]
+
+    print("No Plasticity is detected")
+
+    yieldpoint=data[s1.index(max(s1))]
+    print('Yield point',float(yieldpoint[0]),float(yieldpoint[1]))
+    
+    UTS= yieldpoint
+
+    print('UTS',float(UTS[0]),float(UTS[1]))
+
+    
 
 trace5 = go.Scatter(x=[float(yieldpoint[0])],y=[float(yieldpoint[1])],mode = 'markers',name = 'Yield Point')
 trace3 = go.Scatter(x=[(-popt[1]/popt[0])+0.002,yieldpoint[0]],y=[0,popt[0]*(yieldpoint[0]-0.002)+popt[1]],mode = 'lines',name = '0.2% Offset')
