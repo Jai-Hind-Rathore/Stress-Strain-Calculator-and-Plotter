@@ -138,13 +138,13 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
 
 
 
-print(df)     
+    print(df)     
     
-flag=input("Write csv to save data so far? (in case analysis fails) (y,n)")
+    flag=input("Write csv to save data so far? (in case analysis fails) (y,n)")
 
-if flag == 'y' or flag == 'Y':
-    df.to_csv(filename+' Complete Dataset.csv')
-    print('CSV File created')
+    if flag == 'y' or flag == 'Y':
+        df.to_csv(filename+' Complete Dataset.csv')
+        print('CSV File created')
 
 e1 = df['Eng Strain'].to_list()
 s1 = df['Eng Stress(MPa)'].to_list()
