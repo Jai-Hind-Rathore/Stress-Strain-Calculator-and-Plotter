@@ -4,7 +4,7 @@
 # Can identify Elastic only behavior (Brittle Materials)
 # Can identify bilinear materials or uneven begining of the stress strain curve
 # Does not work on denoised data. \
-#See examples: https://github.com/Jai-Hind-Rathore/Stress-Strain-Calculator-and-Plotter
+# See examples: https://github.com/Jai-Hind-Rathore/Stress-Strain-Calculator-and-Plotter
 
 import csv
 import numpy as np
