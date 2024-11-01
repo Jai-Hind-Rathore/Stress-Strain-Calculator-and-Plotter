@@ -105,23 +105,46 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
 
     Htr = int(input('Is the specimen HTr? Load division by: (1/4): '))
 
-    csc= float(input('Enter the cross section width (mm): '))
-    th = float(input('Enter the thickness (mm): '))
-
+    if stype =='t' or stype =='p':
+        csc= float(input('Enter the cross section width (mm): '))
+        th = float(input('Enter the thickness (mm): '))
+        
+        Truestrain = [i for i in df['eyy [1] - Hencky'].to_list()]
     
-    Load = [abs(i*10000/(Htr)) for i in df['Dev1/ai0'].to_list()]
+        Load = [abs(i*10000/(Htr)) for i in df['Dev1/ai0'].to_list()]
 
-    Disp = [abs(i) for i in df['V [mm]'].to_list()]
+        Disp = [abs(i) for i in df['V [mm]'].to_list()]
 
-    Engstress = [i/(csc*th) for i in Load]
+        Engstress = [i/(csc*th) for i in Load]
+        Area = csc*th
 
-    if stype =='t' or stype=='c' or stype =='p':
+    if stype=='c':
+
+        Area= float(input('Enter the Cross Section Area (mm^2): '))
+        
+        Truestrain = [-i for i in df['eyy [1] - Hencky'].to_list()]
+    
+        Load = [abs(i*10000/(Htr)) for i in df['Dev1/ai0'].to_list()]
+
+        Disp = [abs(i) for i in df['V [mm]'].to_list()]
+
+        Engstress = [i/(Area) for i in Load]
         
         Truestrain = [abs(i) for i in df['eyy [1] - Hencky'].to_list()]
 
     if stype =='s':
         
-        Truestrain = [abs(i) for i in df['exy [1] - Hencky'].to_list()]
+        Truestrain = [i for i in df['exy [1] - Hencky'].to_list()]
+        csc= float(input('Enter the cross section width (mm): '))
+        th = float(input('Enter the thickness (mm): '))
+        
+        Load = [abs(i*10000/(Htr)) for i in df['Dev1/ai0'].to_list()]
+
+        Disp = [abs(i) for i in df['V [mm]'].to_list()]
+
+        Engstress = [i/(csc*th) for i in Load]
+        Area = csc*th
+
 
     Engstrain = [math.exp(i)-1 for i in Truestrain]
 
@@ -141,7 +164,7 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
 
     df = pd.concat([df,df2],axis=1)
     samplelist = ['' for i in range(len(df['Eng Strain']))]
-    samplelist[0]=csc*th
+    samplelist[0]=Area
     df['Cross Section Area (mm^2)']=samplelist
 
 
