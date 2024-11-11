@@ -280,7 +280,7 @@ try:
         r.append((offset[i]-stressfit[i])**2)
 
 
-    yieldpoint=[(strainfit[r.index(min(r))]+strainfit[r.index(min(r))+1])/2,(stressfit[r.index(min(r))]+stressfit[r.index(min(r))+1])/2]
+    yieldpoint=[(strainfit[r.index(min(r))]),(stressfit[r.index(min(r))])]
     print('Yield point',float(yieldpoint[0]),float(yieldpoint[1]))
 
     print("Polynomial Fit Score: ", r21)
