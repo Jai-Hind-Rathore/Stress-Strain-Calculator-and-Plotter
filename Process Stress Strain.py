@@ -260,6 +260,9 @@ print('Modulus',modulus)
 
 print("Elastic Fit Score: ", r2," from percent ",percenti*100," to ", percent*100)
 
+r21=9999
+r22=9999
+
 try:
 
     
