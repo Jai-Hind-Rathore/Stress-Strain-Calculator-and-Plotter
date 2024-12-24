@@ -165,8 +165,13 @@ if 'Eng Strain' not in df.columns or 'Eng Stress(MPa)' not in df.columns:
 
     df = pd.concat([df,df2],axis=1)
     samplelist = ['' for i in range(len(df['Eng Strain']))]
-    samplelist[0]=Area
-    df['Cross Section Area (mm^2)']=samplelist
+    try:
+        samplelist[0]=csc
+        samplelist[1]=th
+        df['Cross Section Dimension (l,th)']=samplelist
+    except:
+        samplelist[0]=Area
+        df['Cross Section Area']=samplelist
 
 
 
