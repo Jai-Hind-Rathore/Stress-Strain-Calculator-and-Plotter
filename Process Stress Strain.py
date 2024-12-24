@@ -3,7 +3,8 @@
 # Computes Modulus, yield point and UTS from a given stress strain curve
 # Can identify Elastic only behavior (Brittle Materials)
 # Can identify bilinear materials or uneven begining of the stress strain curve
-# Does not work on denoised data. \
+# Does not work on denoised data.
+# PLEASE CHECK PLOTS TO SEE ANY ISSUES BEFORE EXPORT
 # See examples: https://github.com/Jai-Hind-Rathore/Stress-Strain-Calculator-and-Plotter
 
 import csv
