@@ -261,8 +261,8 @@ print('Modulus',modulus)
 
 print("Elastic Fit Score: ", r2," from percent ",percenti*100," to ", percent*100)
 
-r21=9999
-r22=9999
+r21=0
+r22=0
 
 try:
 
@@ -317,7 +317,7 @@ except:
 
     print("No Plasticity is detected")
 
-    yieldpoint=data[s1.index(max(s1))]
+    yieldpoint=[0,0]
     print('Yield point',float(yieldpoint[0]),float(yieldpoint[1]))
     
     UTS= yieldpoint
